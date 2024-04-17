@@ -43,7 +43,7 @@ public class StudentService {
 	 */
 	public void save(@NonNull Student student) {
 		// フラグの初期値にtrueを設定する
-		student.setIS_ATTEND(true);
+		student.setIsAttend(true);
 		this.repository.save(student);
 	}
  
@@ -88,4 +88,9 @@ public class StudentService {
         // データベースを更新する
         repository.save(editstudent);
     }
+    public List<Student> searchStudents(Integer entYear, String classNum, Boolean isAttend) {
+        return repository.findByEntYearAndClassNumAndIsAttend(entYear, classNum, isAttend);
+     }
+    
+    
 }

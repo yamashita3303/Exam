@@ -40,9 +40,9 @@
 				   }
 				</script-->
 			<div class="row g-3">
-              <label for="ENT_YEAR" class="form-label">入学年度</label>
+              <label for="entYear" class="form-label">入学年度</label>
               <div class="col-4">
-                <select class="form-control" id="ENT_YEAR" name="ENT_YEAR" th:field="*{ENT_YEAR}" th:classappend="${#fields.hasErrors('ENT_YEAR')} ? 'is-invalid' : 'is-valid'" />
+                <select class="form-control" id="entYear" name="entYear" th:field="*{entYear}" th:classappend="${#fields.hasErrors('entYear')} ? 'is-invalid' : 'is-valid'" />
                 <option value="2014">2014</option>
 				<option value="2015">2015</option>
 				<option value="2016">2016</option>
@@ -83,9 +83,14 @@
             </div>
             
      		<div class="row g-3">
-              <label for="CLASS_NUM" class="form-label">クラス</label>
+              <label for="classNum" class="form-label">クラス</label>
               <div class="col-4">
-                <input type="text" class="form-control" id="CLASS_NUM" name="CLASS_NUM" th:field="*{CLASS_NUM}" th:classappend="${#fields.hasErrors('CLASS_NUM')} ? 'is-invalid' : 'is-valid'" />
+                <select class="form-control" id="classNum" name="classNum" th:field="*{classNum}" th:classappend="${#fields.hasErrors('classNum')} ? 'is-invalid' : 'is-valid'" />
+	                <option value="101">101</option>
+	                <option value="102">102</option>
+	                <option value="201">201</option>
+	                <option value="202">202</option>
+	             </select>
               </div>
             </div>
  			

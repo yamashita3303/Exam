@@ -23,14 +23,14 @@ public class Student {
 	@Column(length = 10, nullable = true)
 	private String NAME;
 	
-	@Column(length = 10, nullable = true)
-	private Integer ENT_YEAR;
+	@Column(name="ENT_YEAR", length = 10, nullable = true)
+	private Integer entYear;
 	
-	@Column(length = 3, nullable = true)
-	private String CLASS_NUM;
+	@Column(name="CLASS_NUM", length = 3, nullable = true)
+	private String classNum;
 	
-	@Column(nullable = true)
-	private Boolean IS_ATTEND;
+	@Column(name="IS_ATTEND", nullable = true)
+	private Boolean isAttend;
 	
 	@Column(length = 3, nullable = true)
 	private String SCHOOL_CD;

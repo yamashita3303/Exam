@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -27,6 +28,17 @@ public class StudentController {
 		model.addAttribute("list", this.studentService.getStudentList());
 		return "student";
 	}
+	
+	@PostMapping("/student/")
+    public String getFilteredStudents(
+            @RequestParam(value = "entYear", required = false) Integer entYear,
+            @RequestParam(value = "classNum", required = false) String classNum,
+            @RequestParam(value = "isAttend", required = false) Boolean isAttend,
+            Model model) {
+		model.addAttribute("list", studentService.searchStudents(entYear, classNum, isAttend));
+		//listという名前は、controllerの@GetMapping("/student/")　と　templatesのstudentのth:each="item, stat : ${list}"　と同じにする
+        return "student";
+    }
 	
 	@GetMapping("/student/form/")
 	public ModelAndView add(Student student, ModelAndView model) {
