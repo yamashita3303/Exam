@@ -212,8 +212,8 @@
           <tbody>
 				<tr class="align-middle" th:each="item, stat : ${list}" th:object="${item}">
 					<td th:text="*{entYear}"></td>
-					<td th:text="*{NO}"></td>
-					<td th:text="*{NAME}"></td>
+					<td th:text="*{no}"></td>
+					<td th:text="*{name}"></td>
 					<td th:text="*{classNum}"></td>
 					<td>
 					    <span th:text="*{isAttend ? '〇' : '×'}"></span>

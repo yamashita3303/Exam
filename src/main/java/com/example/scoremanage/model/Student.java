@@ -17,11 +17,11 @@ public class Student {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Column(length = 10, nullable = false)
-	private String NO;
+	@Column(name="NO", length = 10, nullable = false)
+	private String no;
 
-	@Column(length = 10, nullable = true)
-	private String NAME;
+	@Column(name="NAME", length = 10, nullable = true)
+	private String name;
 	
 	@Column(name="ENT_YEAR", length = 10, nullable = true)
 	private Integer entYear;
@@ -32,6 +32,6 @@ public class Student {
 	@Column(name="IS_ATTEND", nullable = true)
 	private Boolean isAttend;
 	
-	@Column(length = 3, nullable = true)
-	private String SCHOOL_CD;
+	@Column(name="SCHOOL_CD", length = 3, nullable = true)
+	private String schoolCd;
 }

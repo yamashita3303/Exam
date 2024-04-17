@@ -16,14 +16,14 @@
                 <input id="entYear" class="form-control" type="text" th:field="*{entYear}" readonly>
             </div>
             <div class="mb-3">
-                <p th:if="${#fields.hasErrors('NO')}" th:errors="*{NO}" class="text-danger">NO Error</p>
-                <label for="NO" class="form-label">学生番号</label>
-                <input id="NO" class="form-control" type="text" th:field="*{NO}" readonly>
+                <p th:if="${#fields.hasErrors('no')}" th:errors="*{no}" class="text-danger">NO Error</p>
+                <label for="no" class="form-label">学生番号</label>
+                <input id="no" class="form-control" type="text" th:field="*{no}" readonly>
             </div>
             <div class="mb-3">
-                <p th:if="${#fields.hasErrors('NAME')}" th:errors="*{NAME}" class="text-danger">NAME Error</p>
-                <label for="NAME" class="form-label">氏名</label>
-                <input id="NAME" class="form-control" type="text" th:field="*{NAME}" required>
+                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">NAME Error</p>
+                <label for="name" class="form-label">氏名</label>
+                <input id="name" class="form-control" type="text" th:field="*{name}" required>
             </div>
             <div class="mb-3">
                 <p th:if="${#fields.hasErrors('classNum')}" th:errors="*{classNum}" class="text-danger">CLASS_NUM Error</p>
