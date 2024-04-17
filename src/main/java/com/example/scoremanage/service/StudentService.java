@@ -89,7 +89,26 @@ public class StudentService {
         repository.save(editstudent);
     }
     public List<Student> searchStudents(Integer entYear, String classNum, Boolean isAttend) {
-        return repository.findByEntYearAndClassNumAndIsAttend(entYear, classNum, isAttend);
+    	List<Student> students = repository.findAll();
+    	 
+        // 入学年度で絞り込み
+        if (entYear != null) {
+            students = repository.findByEntYear(entYear);
+        }
+ 
+        // クラス番号で絞り込み
+        if (classNum != null && !classNum.isEmpty()) {
+            List<Student> classNumStudents = repository.findByClassNum(classNum);
+            students.retainAll(classNumStudents);
+        }
+ 
+        // 在学フラグで絞り込み
+        if (isAttend != null) {
+            List<Student> isAttendStudents = repository.findByIsAttend(isAttend);
+            students.retainAll(isAttendStudents);
+        }
+ 
+        return students;
      }
     
     

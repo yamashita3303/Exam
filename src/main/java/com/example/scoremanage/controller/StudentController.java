@@ -1,5 +1,7 @@
 package com.example.scoremanage.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,11 +33,13 @@ public class StudentController {
 	
 	@PostMapping("/student/")
     public String getFilteredStudents(
-            @RequestParam(value = "entYear", required = false) Integer entYear,
-            @RequestParam(value = "classNum", required = false) String classNum,
-            @RequestParam(value = "isAttend", required = false) Boolean isAttend,
+    		@RequestParam(name = "entYear", required = false) Integer entYear,
+            @RequestParam(name = "classNum", required = false) String classNum,
+            @RequestParam(name = "isAttend", required = false) Boolean isAttend,
             Model model) {
-		model.addAttribute("list", studentService.searchStudents(entYear, classNum, isAttend));
+        // 検索操作の場合
+        List<Student> students = studentService.searchStudents(entYear, classNum, isAttend);
+        model.addAttribute("list", students);
 		//listという名前は、controllerの@GetMapping("/student/")　と　templatesのstudentのth:each="item, stat : ${list}"　と同じにする
         return "student";
     }
