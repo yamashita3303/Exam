@@ -26,7 +26,7 @@ public class LoginController {
         if (name != null) {
             // ログイン成功の場合は、名前をモデルに追加して、メインページにリダイレクト
             model.addAttribute("loggedInUserName", name);
-            return "redirect:/mainmenu";
+            return "redirect:/main/";
         } else {
             // ログイン失敗の場合は、エラーメッセージを追加してログインページに戻る
             redirectAttributes.addFlashAttribute("errorMessage", "ユーザーIDまたはパスワードが間違っています");
