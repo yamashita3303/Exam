@@ -40,7 +40,7 @@
                 <label for="isAttend" class="form-label">在学中</label>
                 <input id="isAttend" class="form-control" type="checkbox" th:field="*{isAttend}" >
             </div>
-            <input type="submit" class="w-20 btn btn-primary" value="更新">
+            <input th:href="@{/student/updatecomplate/}"type="submit" class="w-20 btn btn-primary" value="更新">
         </form>
         <a th:href="@{/student/}" class="btn btn-secondary">一覧に戻る</a>
     </div>
