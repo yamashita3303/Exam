@@ -61,7 +61,7 @@ public class StudentController {
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("exception", e.getMessage());
 		}
-		return "redirect:/student/";
+		return "studentformcomplate";
 	}
 	
 	/*
@@ -107,7 +107,24 @@ public class StudentController {
 	    studentService.update(student);
 		
 	    // 本の一覧画面にリダイレクト
-	    return "redirect:/student/";
+	    return "studentupdatecomplate";
+	}
+	
+	
+	// 登録後、完了メッセージを表示する
+	@GetMapping("/student/formcomplate/")
+	public ModelAndView formcomplate(Student student, ModelAndView model) {
+		model.addObject("student", student);
+		model.setViewName("studentformcomplate");
+		return model;
+	}
+	
+	// 更新後、完了メッセージを表示する
+	@GetMapping("/student/updatecomplate/")
+	public ModelAndView updatecomplate(Student student, ModelAndView model) {
+		model.addObject("student", student);
+		model.setViewName("studentupdatecomplate");
+		return model;
 	}
 
 }
