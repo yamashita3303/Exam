@@ -22,7 +22,7 @@ public class SubjectService {
 	 * アドレス帳一覧の取得
 	 * @return List<Subject>
 	 */
-	public List<Subject> getScoreManageList() {
+	public List<Subject> getSubjectList() {
 	    List<Subject> entityList = this.repository.findAll();
 	    return entityList;
 	}
@@ -52,4 +52,37 @@ public class SubjectService {
 	public void delete(@NonNull Long index) {
 		this.repository.deleteById(index);
 	}
+	
+	// 受け取ったidからデータを取得して、Formを返却する
+    public Subject getOneBook(Long id) {
+		
+        // idを指定して本の情報を取得する
+    	Subject subject = repository.findById(id).orElseThrow();
+		
+        // 画面返却用のFormに値を設定する
+        /*
+        Student editstudent = new Student();
+        editstudent.setId(student.getId());
+        editstudent.setNAME(student.getNAME());
+        editstudent.setCLASS_NUM(student.getCLASS_NUM());
+        */
+		
+        return subject;
+    }
+    
+ // 本を更新する
+    public void update(Subject editsubject) {
+		
+        // データベースに登録する値を保持するインスタンスの作成
+    	//Student student = new Student();
+		
+        // 画面から受け取った値を設定する
+    	/*
+    	student.setId(editstudent.getId());
+    	student.setNAME(editstudent.getNAME());
+    	student.setCLASS_NUM(editstudent.getCLASS_NUM());
+    	*/
+        // データベースを更新する
+        repository.save(editsubject);
+    }
 }
