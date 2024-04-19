@@ -85,4 +85,34 @@ public class TestService {
         // データベースを更新する
         repository.save(edittest);
     }
+    
+    public List<Test> searchTests(/*Integer entYear, */String classNum, String subjectCd, Integer no) {
+    	List<Test> tests = repository.findAll();
+    	 
+        // 入学年度で絞り込み
+    	/*
+        if (entYear != null) {
+        	tests = repository.findByEntYear(entYear);
+        }
+        */
+ 
+        // クラス番号で絞り込み
+        if (classNum != null && !classNum.isEmpty()) {
+            List<Test> classNumTests = repository.findByClassNum(classNum);
+            tests.retainAll(classNumTests);
+        }
+ 
+        // 科目で絞り込み
+        if (subjectCd != null && !subjectCd.isEmpty()) {
+            List<Test> subjectCdTests = repository.findBySubjectCd(subjectCd);
+            tests.retainAll(subjectCdTests);
+        }
+        
+        // 回数で絞り込み
+        if (no != null) {
+        	tests = repository.findByNo(no);
+        }
+ 
+        return tests;
+     }
 }
