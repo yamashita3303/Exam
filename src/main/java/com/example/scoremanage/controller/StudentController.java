@@ -106,7 +106,7 @@ public class StudentController {
 	    // 本を更新する
 	    studentService.update(student);
 		
-	    // 本の一覧画面にリダイレクト
+	    // 完了画面に移行
 	    return "studentupdatecomplate";
 	}
 	

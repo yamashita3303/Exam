@@ -44,7 +44,7 @@ public class SubjectController {
 			} catch (Exception e) {
 				redirectAttributes.addFlashAttribute("exception", e.getMessage());
 			}
-			return "redirect:/subject/";
+			return "subjectformcomplate";
 		}
 		
 		// 編集画面を表示する
@@ -70,8 +70,24 @@ public class SubjectController {
 		    // 本を更新する
 		    subjectService.update(subject);
 			
-		    // 本の一覧画面にリダイレクト
-		    return "redirect:/subject/";
+		    // 完了画面に移行
+		    return "subjectupdatecomplate";
+		}
+		
+		// 登録後、完了メッセージを表示する
+		@GetMapping("/subject/formcomplate/")
+		public ModelAndView formcomplate(Subject subject, ModelAndView model) {
+			model.addObject("subject", subject);
+			model.setViewName("subjectformcomplate");
+			return model;
+		}
+		
+		// 更新後、完了メッセージを表示する
+		@GetMapping("/subject/updatecomplate/")
+		public ModelAndView updatecomplate(Subject subject, ModelAndView model) {
+			model.addObject("subject", subject);
+			model.setViewName("subjectupdatecomplate");
+			return model;
 		}
 	}
 

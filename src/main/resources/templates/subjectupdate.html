@@ -25,7 +25,7 @@
                 <label for="name" class="form-label">科目名</label>
                 <input id="name" class="form-control" type="text" th:field="*{name}" required>
             </div>
-            <input type="submit" class="w-20 btn btn-primary" value="更新">
+            <input th:href="@{/subject/updatecomplate/}" type="submit" class="w-20 btn btn-primary" value="更新">
         </form>
         <a th:href="@{/subject/}" class="btn btn-secondary">一覧に戻る</a>
     </div>
