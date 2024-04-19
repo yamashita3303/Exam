@@ -115,4 +115,35 @@ public class TestService {
  
         return tests;
      }
+    
+    public List<Test> searchReferences(/*Integer entYear, */String classNum, String subjectCd, String studentNo) {
+    	List<Test> references = repository.findAll();
+    	 
+        // 入学年度で絞り込み
+    	/*
+        if (entYear != null) {
+        	references = repository.findByEntYear(entYear);
+        }
+        */
+ 
+        // クラス番号で絞り込み
+        if (classNum != null && !classNum.isEmpty()) {
+            List<Test> classNumTests = repository.findByClassNum(classNum);
+            references.retainAll(classNumTests);
+        }
+ 
+        // 科目で絞り込み
+        if (subjectCd != null && !subjectCd.isEmpty()) {
+            List<Test> subjectCdTests = repository.findBySubjectCd(subjectCd);
+            references.retainAll(subjectCdTests);
+        }
+ 
+        // 学生番号で絞り込み
+        if (studentNo != null && !studentNo.isEmpty()) {
+            List<Test> classStudentNos = repository.findByStudentNo(studentNo);
+            references.retainAll(classStudentNos);
+        }
+
+        return references;
+     }
 }
