@@ -3,22 +3,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>formcomplate</title>
+    <title>updatecomplete</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   </head>
   
-  <form class="form py-4 needs-validation h-adr" method="post" th:action="@{/student/formcomplate/}" th:object="${student}">
+  <form class="form py-4 needs-validation h-adr" method="post" th:action="@{/student/updatecomplete/}" th:object="${student}">
   
   <!--メニュー-->
 
 <div class="box">
 	
-	<h2>学生情報登録</h2>
+	<h2>学生情報変更</h2>
 	
-	<h3>登録が完了しました。</h3>
+	<h3>変更が完了しました。</h3>
 	
-	
-	<a th:href="@{/student/form/}" type="button" class="btn btn-link">戻る</a>
 	<a th:href="@{/student/}" class="btn btn-link">学生一覧</a>
     
 <!--メニュー-->
