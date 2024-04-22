@@ -61,7 +61,7 @@ public class StudentController {
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("exception", e.getMessage());
 		}
-		return "studentformcomplate";
+		return "studentformcomplete";
 	}
 	
 	/*
@@ -107,23 +107,23 @@ public class StudentController {
 	    studentService.update(student);
 		
 	    // 完了画面に移行
-	    return "studentupdatecomplate";
+	    return "studentupdatecomplete";
 	}
 	
 	
 	// 登録後、完了メッセージを表示する
-	@GetMapping("/student/formcomplate/")
-	public ModelAndView formcomplate(Student student, ModelAndView model) {
+	@GetMapping("/student/formcomplete/")
+	public ModelAndView formcomplete(Student student, ModelAndView model) {
 		model.addObject("student", student);
-		model.setViewName("studentformcomplate");
+		model.setViewName("studentformcomplete");
 		return model;
 	}
 	
 	// 更新後、完了メッセージを表示する
-	@GetMapping("/student/updatecomplate/")
-	public ModelAndView updatecomplate(Student student, ModelAndView model) {
+	@GetMapping("/student/updatecomplete/")
+	public ModelAndView updatecomplete(Student student, ModelAndView model) {
 		model.addObject("student", student);
-		model.setViewName("studentupdatecomplate");
+		model.setViewName("studentupdatecomplete");
 		return model;
 	}
 

@@ -45,7 +45,7 @@ public class SubjectController {
 			} catch (Exception e) {
 				redirectAttributes.addFlashAttribute("exception", e.getMessage());
 			}
-			return "subjectformcomplate";
+			return "subjectformcomplete";
 		}
 		
 		// 編集画面を表示する
@@ -72,30 +72,39 @@ public class SubjectController {
 		    subjectService.update(subject);
 			
 		    // 完了画面に移行
-		    return "subjectupdatecomplate";
+		    return "subjectupdatecomplete";
 		}
 		
 		@GetMapping("/subject/delete/{id}")
 		public ModelAndView delete(@PathVariable(name = "id") Long id, Subject subject, ModelAndView model) {
-			this.subjectService.delete(id);
+			//model.addAttribute("name", subjectService.get());
+			model.addObject("deletelist", this.subjectService.get(id));
 			model.setViewName("subjectdelete");
 			return model;
 		}
 		
 		// 登録後、完了メッセージを表示する
-		@GetMapping("/subject/formcomplate/")
-		public ModelAndView formcomplate(Subject subject, ModelAndView model) {
+		@GetMapping("/subject/formcomplete/")
+		public ModelAndView formcomplete(Subject subject, ModelAndView model) {
 			model.addObject("subject", subject);
-			model.setViewName("subjectformcomplate");
+			model.setViewName("subjectformcomplete");
 			return model;
 		}
 		
 		// 更新後、完了メッセージを表示する
-		@GetMapping("/subject/updatecomplate/")
-		public ModelAndView updatecomplate(Subject subject, ModelAndView model) {
+		@GetMapping("/subject/updatecomplete/")
+		public ModelAndView updatecomplete(Subject subject, ModelAndView model) {
 			model.addObject("subject", subject);
-			model.setViewName("subjectupdatecomplate");
+			model.setViewName("subjectupdatecomplete");
 			return model;
+		}
+		
+		// 削除後、完了メッセージを表示する
+		@GetMapping("/subject/deletecomplete/{id}")
+		public String subjectdeletecomplete(@PathVariable Long id, Model model) {
+		    // IDをモデルに設定する
+			this.subjectService.delete(id);
+		    return "subjectdeletecomplete"; // リダイレクト先のビュー名を返す
 		}
 		
 	}

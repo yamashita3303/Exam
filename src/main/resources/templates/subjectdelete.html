@@ -6,9 +6,9 @@
 </head>
 <body>
 		<p th:text="*{name}"></p>
-p		<p>を削除してもよろしいですか</p>
+		<p>を削除してもよろしいですか</p>
 		
-		<a th:href="@{/subject/deletecomplete/}" class="btn btn-link">削除</a>
+		<a th:href="@{/subject/deletecomplete/{id}(id=*{id})}" class="btn btn-link">削除</a>
 		
 		<a th:href="@{/subject/}" class="btn btn-secondary">戻る</a>
 </body>
