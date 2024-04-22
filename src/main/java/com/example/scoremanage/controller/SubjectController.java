@@ -77,7 +77,8 @@ public class SubjectController {
 		
 		@GetMapping("/subject/delete/{id}")
 		public ModelAndView delete(@PathVariable(name = "id") Long id, Subject subject, ModelAndView model) {
-			this.subjectService.delete(id);
+			//model.addAttribute("name", subjectService.get());
+			model.addObject("deletelist", this.subjectService.get(id));
 			model.setViewName("subjectdelete");
 			return model;
 		}
@@ -100,10 +101,11 @@ public class SubjectController {
 		
 		// 削除後、完了メッセージを表示する
 		@GetMapping("/subject/deletecomplete/{id}")
-		public String deletecomplete(@PathVariable Long id, Model model) {
+
+		public String subjectdeletecomplete(@PathVariable Long id, Model model) {
 		    // IDをモデルに設定する
-		    model.addAttribute("id", id);
-		    return "deletecomplete"; // リダイレクト先のビュー名を返す
+			this.subjectService.delete(id);
+		    return "subjectdeletecomplete"; // リダイレクト先のビュー名を返す
 		}
 		
 	}
