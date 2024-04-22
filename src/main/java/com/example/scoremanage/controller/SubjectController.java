@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -74,6 +75,13 @@ public class SubjectController {
 		    return "subjectupdatecomplate";
 		}
 		
+		@GetMapping("/subject/delete/{id}")
+		public ModelAndView delete(@PathVariable(name = "id") Long id, Subject subject, ModelAndView model) {
+			this.subjectService.delete(id);
+			model.setViewName("subjectdelete");
+			return model;
+		}
+		
 		// 登録後、完了メッセージを表示する
 		@GetMapping("/subject/formcomplate/")
 		public ModelAndView formcomplate(Subject subject, ModelAndView model) {
@@ -89,5 +97,6 @@ public class SubjectController {
 			model.setViewName("subjectupdatecomplate");
 			return model;
 		}
+		
 	}
 
