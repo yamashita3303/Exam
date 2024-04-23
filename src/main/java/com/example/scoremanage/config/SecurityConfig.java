@@ -37,7 +37,7 @@ public class SecurityConfig {
 						(basic) -> basic.disable())
 				.authorizeHttpRequests(request -> {
 					request
-							.requestMatchers("/login").permitAll()     // ログインページは全許可
+							.requestMatchers("/").permitAll()     // ログインページは全許可
 							.requestMatchers("/webjars/**").permitAll() // webjarsのパスは全許可
 							.requestMatchers("/js/**").permitAll()      // JSのstaticファイル
 							.requestMatchers("/css/**").permitAll()     // CSSのstaticファイル
@@ -46,9 +46,9 @@ public class SecurityConfig {
 				})
 				.formLogin(form -> {
 					form
-							.loginPage("/login")             // ログインページのURI
-							.loginProcessingUrl("/login")    // ログインを実施するページのURI
-							.defaultSuccessUrl("/")           // ログイン完了後の遷移先
+							.loginPage("/")             // ログインページのURI
+							.loginProcessingUrl("/")    // ログインを実施するページのURI
+							.defaultSuccessUrl("/main/")           // ログイン完了後の遷移先
 							.failureUrl("/login?error=true") // ログインエラーページのURI
 							.usernameParameter("teacherId") // ログインユーザのname属性
 							.passwordParameter("password");   // ログインパスワードのname属性
