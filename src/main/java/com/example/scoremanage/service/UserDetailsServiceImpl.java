@@ -18,20 +18,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private LoginRepository userRepository;
  
     @Override
-    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-        Teacher teacher = userRepository.findByIdEquals(id);
+    public UserDetails loadUserByUsername(String teacherId) throws UsernameNotFoundException {
+        Teacher teacher = userRepository.findByTeacherIdEquals(teacherId);
         if (teacher == null) {
-            throw new UsernameNotFoundException("User not found with ID: " + id);
+            throw new UsernameNotFoundException("User not found with ID: " + teacherId);
         }
         return new org.springframework.security.core.userdetails.User(
-            teacher.getId(),
+            teacher.getTeacherId(),
             teacher.getPassword(),
             Collections.emptyList()
         );
     }
  
     public boolean authenticate(String id, String password) {
-        Teacher teacher = userRepository.findByIdEquals(id);
+        Teacher teacher = userRepository.findByTeacherIdEquals(id);
         if (teacher != null && teacher.getPassword().equals(password)) {
             return true; // パスワードが一致した場合は認証成功
         }

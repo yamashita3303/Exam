@@ -4,8 +4,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.scoremanage.model.Teacher;
  
-public interface LoginRepository extends JpaRepository<Teacher, String> {
+public interface LoginRepository extends JpaRepository<Teacher, Long> {
  
-	Teacher findByIdAndPassword(String id, String password);
-	Teacher findByIdEquals(String id);
+	Teacher findByTeacherIdAndPassword(String teacherId, String password);
+	Teacher findByTeacherIdEquals(String teacherId);
 }

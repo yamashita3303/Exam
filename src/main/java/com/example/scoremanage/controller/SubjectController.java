@@ -101,7 +101,6 @@ public class SubjectController {
 		
 		// 削除後、完了メッセージを表示する
 		@GetMapping("/subject/deletecomplete/{id}")
-
 		public String subjectdeletecomplete(@PathVariable Long id, Model model) {
 		    // IDをモデルに設定する
 			this.subjectService.delete(id);
