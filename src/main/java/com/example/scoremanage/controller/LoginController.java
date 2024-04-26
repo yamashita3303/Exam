@@ -17,4 +17,5 @@ public class LoginController {
 	public String postLogin(Model model) {
 		return "redirect:main";
 	}
+
 }
