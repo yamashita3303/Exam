@@ -8,15 +8,52 @@
   </head>
   
   <form class="form py-4 needs-validation h-adr" method="post" th:action="@{/main/}" th:object="${student}">
-	  
+	 
+	 
+<!--配置を整える-->
+<style>
+
+    /* サイドバーのスタイル */
+    .sidebar {
+        flex: 0 0 200px; /* サイドバーの幅を固定 */
+        padding: 20px;
+        width: 250px;
+    }
+
+    /* メインコンテンツのスタイル */
+    .main-content {
+        flex: 1; /* メインコンテンツが残りのスペースを埋める */
+        padding: 20px;
+    }
+
+    /* ヘッダーのスタイル */
+    containerheader {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 20px;
+    }
+
+    /* フッターのスタイル */
+    footer {
+        background-color: #333;
+        color: rgb(0, 0, 0);
+        padding: 10px 20px;
+        
+    }
+    
+    .wrapper {
+    display: flex; /* フレックスコンテナーにする */
+    }
+
+</style>
+
+
 <!--ヘッダー-->
 
-    <style>
-      .bd-placeholder-img {
+<style>
+    .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
         user-select: none;
       }
 
@@ -33,17 +70,6 @@
         border: solid rgba(0, 0, 0, .15);
         border-width: 1px 0;
         box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-      }
-
-      .b-example-vr {
-        flex-shrink: 0;
-        width: 1.5rem;
-        height: 100vh;
-      }
-
-      .bi {
-        vertical-align: -.125em;
-        fill: currentColor;
       }
 
       .nav-scroller {
@@ -67,7 +93,6 @@
       .btn-bd-primary {
         --bd-violet-bg: #712cf9;
         --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
         --bs-btn-font-weight: 600;
         --bs-btn-color: var(--bs-white);
         --bs-btn-bg: var(--bd-violet-bg);
@@ -83,171 +108,122 @@
       .bd-mode-toggle {
         z-index: 1500;
       }
-    </style>
+</style>
 
-    
-    <!-- Custom styles for this template -->
-    <link href="headers.css" rel="stylesheet">
-  </head>
-  <body>
+
+<body>
 <main>
-
-  <div class="containerheader">
-    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
-        <span class="fs-4">得点管理システム</span>
-      </a>
-
-      <ul class="nav nav-pills">
-        <li class="nav-item"><a href="#" class="nav-link">ログアウト</a></li>
-      </ul>
-    </header>
-  </div>
+    <div class="containerheader">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+                <span class="fs-4">得点管理システム</span>
+            </a>
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="#" class="nav-link">ログアウト</a></li>
+            </ul>
+        </header>
+    </div>
+</main>
+</body>
   
 <!--ヘッダー-->
 
 
 <!--サイドバー-->
-
-    <style>
-		
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-
-      .b-example-divider {
-        width: 100%;
-        height: 3rem;
-        background-color: rgba(0, 0, 0, .1);
-        border: solid rgba(0, 0, 0, .15);
-        border-width: 1px 0;
-        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-      }
-
-      .b-example-vr {
-        flex-shrink: 0;
-        width: 1.5rem;
-        height: 100vh;
-      }
-
-      .bi {
-        vertical-align: -.125em;
-        fill: currentColor;
-      }
-
-      .nav-scroller {
-        position: relative;
-        z-index: 2;
-        height: 2.75rem;
-        overflow-y: hidden;
-      }
-
-      .nav-scroller .nav {
-        display: flex;
-        flex-wrap: nowrap;
-        padding-bottom: 1rem;
-        margin-top: -1px;
-        overflow-x: auto;
-        text-align: center;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      .btn-bd-primary {
-        --bd-violet-bg: #712cf9;
-        --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
-        --bs-btn-font-weight: 600;
-        --bs-btn-color: var(--bs-white);
-        --bs-btn-bg: var(--bd-violet-bg);
-        --bs-btn-border-color: var(--bd-violet-bg);
-        --bs-btn-hover-color: var(--bs-white);
-        --bs-btn-hover-bg: #6528e0;
-        --bs-btn-hover-border-color: #6528e0;
-        --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-        --bs-btn-active-color: var(--bs-btn-hover-color);
-        --bs-btn-active-bg: #5a23c8;
-        --bs-btn-active-border-color: #5a23c8;
-      }
-      .bd-mode-toggle {
-        z-index: 1500;
-      }
-      .nav-link link-body-emphasis{
-		padding-left: 20px;
-	}
-    </style>
-
-    
-    <!-- Custom styles for this template -->
-  </head>
-  <body>
-
-<main class="d-flex flex-nowrap">
-
-    <hr>
-    <ul class="nav nav-pills flex-column mb-auto">
-      <li class="nav-item">
-        <a th:href="@{/main/}" class="nav-link link-body-emphasis">
-			<use xlink:href="#home"/></svg>
-          メニュー
-        </a>
-      </li>
-      <li>
-        <a th:href="@{/student/}" class="nav-link link-body-emphasis">
-			<use xlink:href="#speedometer2"/></svg>
-          学生管理
-        </a>
-      </li>
-      <li>
-        <a class="nav-link link-body-emphasis">
-			<use xlink:href="#speedometer2"/></svg>
-          成績管理
-        </a>
-      </li>
-      <li>
-        <a th:href="@{/test/}" class="nav-link link-body-emphasis">
-			<use xlink:href="#table"/></svg>
-          成績登録
-        </a>
-      </li>
-      <li>
-        <a href="#" class="nav-link link-body-emphasis">
-			<use xlink:href="#grid"/></svg>
-          成績参照
-        </a>
-      </li>
-      <li>
-        <a th:href="@{/subject/}" class="nav-link link-body-emphasis">
-			<use xlink:href="#people-circle"/></svg>
-          科目管理
-        </a>
-      </li>
-    </ul>
-  </div>
+<div class="wrapper">
+	<style>
+	    /* 共通スタイル */
+	    .nav-link {
+	        padding-left: 20px;
+	        display: flex;
+	        align-items: center;
+	    }
+	
+	    .nav {
+	        display: flex;
+	        flex-direction: column;
+	        padding-bottom: 1rem;
+	        margin-top: -1px;
+	        white-space: nowrap;
+	        overflow-x: auto;
+	        -webkit-overflow-scrolling: touch;
+	    }
+	
+	    .nav-item {
+	        margin-bottom: 5px;
+	    }
+	
+	    .mb-auto {
+	        margin-bottom: auto;
+	    }
+	
+	    .link-body-emphasis {
+	        color: inherit;
+	        text-decoration: none;
+	    }
+	</style>
+	
+	<body>
+	<div class="sidebar">
+	<main class="d-flex flex-nowrap">
+	    <hr class="hr">
+	    <ul class="nav nav-pills flex-column mb-auto">
+	        <li class="nav-item">
+	            <a th:href="@{/main/}" class="nav-link link-body-emphasis">
+	                <svg class="bi" width="24" height="24"><use xlink:href="#home"/></svg>
+	                メニュー
+	            </a>
+	        </li>
+	        <li class="nav-item">
+	            <a th:href="@{/student/}" class="nav-link link-body-emphasis">
+	                <svg class="bi" width="24" height="24"><use xlink:href="#speedometer2"/></svg>
+	                学生管理
+	            </a>
+	        </li>
+	        <li class="nav-item">
+	            <a class="nav-link link-body-emphasis">
+	                <svg class="bi" width="24" height="24"><use xlink:href="#speedometer2"/></svg>
+	                成績管理
+	            </a>
+	        </li>
+	        <li class="nav-item">
+	            <a th:href="@{/test/}" class="nav-link link-body-emphasis">
+	                <svg class="bi" width="24" height="24"><use xlink:href="#table"/></svg>
+	                成績登録
+	            </a>
+	        </li>
+	        <li class="nav-item">
+	            <a href="#" class="nav-link link-body-emphasis">
+	                <svg class="bi" width="24" height="24"><use xlink:href="#grid"/></svg>
+	                成績参照
+	            </a>
+	        </li>
+	        <li class="nav-item">
+	            <a th:href="@{/subject/}" class="nav-link link-body-emphasis">
+	                <svg class="bi" width="24" height="24"><use xlink:href="#people-circle"/></svg>
+	                科目管理
+	            </a>
+	        </li>
+	    </ul>
+	</main>
+	</body>
+	</div>
   
 <!--サイドバー-->
 
 
 <!--見出し-->
+<div class="main-content">
 <div class="headline">
 	<h2>メニュー</h2>
 	</div>
 	
 	<style>
 	.headline {
-	  background: rgb(227, 227, 227);/*背景色*/
-
+	    background: rgb(233, 233, 233);
+        padding: 10px;
+        margin-bottom: 20px;
 	}
 	</style>
 
@@ -257,44 +233,45 @@
 <!--メニュー-->
 
 <style>
+    .box {
+        display: flex;
+        justify-content: center; /* 中央に寄せる */
+    }
+    
+    .color-boxred, .color-boxgreen, .color-boxpurple {
+        width: calc(33.33% - 21px); /* 3つの要素を等幅に */
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-bottom: 20px;
+        margin-right: 20px;
+    }
+
     .color-boxred {
-        width: 200px;
-        height: 200px;
         background-color: rgb(252, 203, 204);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
     }
-    
+
     .color-boxgreen {
-        width: 200px;
-        height: 200px;
         background-color: rgb(231, 253, 189);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
     }
-    
+
     .color-boxpurple {
-        width: 200px;
-        height: 200px;
         background-color: rgb(199, 199, 226);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
     }
 
     .link-item {
         margin-bottom: 10px;
         text-align: center;
     }
-
 </style>
+
 <div class="box">
+<<<<<<< HEAD
 	<div class="d-flex">
+=======
+>>>>>>> branch 'master' of https://github.com/yamashita3303/Exam.git
     <div class="color-boxred">
         <div class="link-item">
             <a th:href="@{/student/}">学生管理</a>
@@ -318,7 +295,12 @@
             <a th:href="@{/subject/}">科目管理</a>
         </div>
     </div>
+<<<<<<< HEAD
     </div>
+=======
+</div>
+</div>
+>>>>>>> branch 'master' of https://github.com/yamashita3303/Exam.git
 </div>
     
 <!--メニュー-->
@@ -332,14 +314,14 @@
   </footer>
     
   <style>
-	  footer {
+footer {
   position: fixed;
   bottom: 0;
   width: 100%;
   height: 100px;
   text-align: center;
   padding: 25px 0;
-  background-color: rgb(215, 215, 215);
+  background-color: rgb(233, 233, 233);
 }
 .footer-text {
   color: #fff;
@@ -347,5 +329,5 @@
   </style>
 <!--フッター-->
 
-
+</body>
 </html>
