@@ -7,6 +7,7 @@ import com.example.scoremanage.model.Teacher;
 
 @Repository
 public interface TeacherRepository extends JpaRepository<Teacher, Long> {
-	
+	//ログイン時に使用するteacherIdを取ってくる
+    Teacher findByTeacherIdEquals(String teacherId);	
 }
 

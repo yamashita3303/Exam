@@ -22,4 +22,13 @@ public class ClassNum {
 
 	@Column(name="CLASS_NUM", length = 5, nullable = false)
 	private String classNum;
+	
+	/**
+	 * クラスを返す
+	 * @return classNum
+	 */
+	public String getClassNum() {
+	    // ユーザー名を返す
+	    return this.classNum;
+	}
 }

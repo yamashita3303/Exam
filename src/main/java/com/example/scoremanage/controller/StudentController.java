@@ -3,6 +3,8 @@ package com.example.scoremanage.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.scoremanage.model.Student;
+import com.example.scoremanage.model.Teacher;
 import com.example.scoremanage.service.StudentService;
 
 import io.micrometer.common.lang.NonNull;
@@ -24,11 +27,21 @@ public class StudentController {
 	@Autowired
 	private StudentService studentService;
 
-	@GetMapping("/student/")
-	public String index(Model model) {
-	//	model.addAttribute("massage", "こんにちは");
-		model.addAttribute("list", this.studentService.getStudentList());
-		return "student";
+	/*
+	@GetMapping("/student/") // HTTP GETリクエストを"/student/"エンドポイントで処理する
+	public String top(Model model) { // モデルを受け取る
+	    // 学生の一覧を取得してモデルに追加する
+	    model.addAttribute("list", this.studentService.getStudentList());
+	    // "student"テンプレート名を返す
+	    return "student";
+	}
+	*/
+	@GetMapping("/student/") // HTTP GETリクエストを"/student/"エンドポイントで処理する
+	public String top(Model model, @AuthenticationPrincipal UserDetails user) { // モデルを受け取る
+	    // 学生の一覧を取得してモデルに追加する
+	    model.addAttribute("list", this.studentService.getResStudentList(user));
+	    // "student"テンプレート名を返す
+	    return "student";
 	}
 	
 	@PostMapping("/student/")
@@ -36,9 +49,9 @@ public class StudentController {
     		@RequestParam(name = "entYear", required = false) Integer entYear,
             @RequestParam(name = "classNum", required = false) String classNum,
             @RequestParam(name = "isAttend", required = false) Boolean isAttend,
-            Model model) {
+            Model model, @AuthenticationPrincipal Teacher teacher) {
         // 検索操作の場合
-        List<Student> students = studentService.searchStudents(entYear, classNum, isAttend);
+        List<Student> students = studentService.searchStudents(entYear, classNum, isAttend, teacher.getSchoolCd());
         model.addAttribute("list", students);
 		//listという名前は、controllerの@GetMapping("/student/")　と　templatesのstudentのth:each="item, stat : ${list}"　と同じにする
         return "student";
@@ -53,9 +66,9 @@ public class StudentController {
  
 	@PostMapping("/student/form/")
 	public String add(@Validated @ModelAttribute @NonNull Student student, RedirectAttributes result, ModelAndView model,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails user) {
 		try {
-			this.studentService.save(student);
+			this.studentService.save(student, user);
 			redirectAttributes.addFlashAttribute("exception", "");
  
 		} catch (Exception e) {

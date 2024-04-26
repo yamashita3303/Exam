@@ -10,11 +10,7 @@
         <h1>本の編集を行う</h1>
         <form th:action="@{/subject/update/{id}(id=*{id})}" th:object="${subject}" method="POST">
             <input type="hidden" th:field="*{id}" th:value="*{id}" />
-            <div class="mb-3">
-                <p th:if="${#fields.hasErrors('schoolCd')}" th:errors="*{schoolCd}" class="text-danger">schoolCd Error</p>
-                <label for="schoolCd" class="form-label">入学年度</label>
-                <input id="schoolCd" class="form-control" type="text" th:field="*{schoolCd}" readonly>
-            </div>
+            <input type="hidden" th:field="*{schoolCd}" th:value="*{schoolCd}" />
             <div class="mb-3">
                 <p th:if="${#fields.hasErrors('cd')}" th:errors="*{cd}" class="text-danger">CD Error</p>
                 <label for="cd" class="form-label">科目コード</label>

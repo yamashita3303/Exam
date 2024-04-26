@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.example.scoremanage.model.Subject;
+import com.example.scoremanage.model.Teacher;
 import com.example.scoremanage.repository.SubjectRepository;
+import com.example.scoremanage.repository.TeacherRepository;
 
 import jakarta.transaction.Transactional;
  
@@ -17,15 +20,34 @@ public class SubjectService {
  
 	@Autowired
 	private SubjectRepository repository;
+	@Autowired
+	private TeacherRepository teacherRepository;
  
 	/**
 	 * アドレス帳一覧の取得
 	 * @return List<Subject>
 	 */
+	/*
 	public List<Subject> getSubjectList() {
 	    List<Subject> entityList = this.repository.findAll();
 	    return entityList;
 	}
+	*/
+	/**
+	 * 学校ごとの一覧の取得
+     * (ユーザーに関連する学生のリストを取得するメソッド)
+     *
+     * @param user ユーザーの詳細情報
+     * @return ユーザーに関連する学生のリスト
+     */
+    public List<Subject> getResSubjectList(UserDetails user) {
+        // ユーザーのユーザー名に対応する教師情報をデータベースから取得する
+        Teacher teachers = this.teacherRepository.findByTeacherIdEquals(user.getUsername());
+        // 教師の所属する学校コードに関連する学生エンティティのリストを取得する
+        List<Subject> entityList = this.repository.findBySchoolCd(teachers.getSchoolCd());
+        // 学生エンティティのリストを返す
+        return entityList;
+    }
  
 	/**
 	 * 詳細データの取得
@@ -41,7 +63,11 @@ public class SubjectService {
 	 * アドレス帳一覧の取得
 	 * @param SUBJECT SUBJECT
 	 */
-	public void save(@NonNull Subject subject) {
+	public void save(@NonNull Subject subject, UserDetails user) {
+		// ユーザーのユーザー名に対応する教師情報をデータベースから取得する
+        Teacher teachers = this.teacherRepository.findByTeacherIdEquals(user.getUsername());
+        // TeacherIdから取得したSchoolCdを初期値に設定する
+        subject.setSchoolCd(teachers.getSchoolCd());
 		this.repository.save(subject);
 	}
  

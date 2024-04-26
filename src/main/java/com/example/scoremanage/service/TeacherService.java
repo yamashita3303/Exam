@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.scoremanage.model.Teacher;
@@ -17,6 +18,8 @@ public class TeacherService {
  
 	@Autowired
 	private TeacherRepository repository;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
  
 	/**
 	 * アドレス帳一覧の取得
@@ -42,6 +45,7 @@ public class TeacherService {
 	 * @param TEACHER TEACHER
 	 */
 	public void save(@NonNull Teacher teacher) {
+		teacher.setPassword(this.passwordEncoder.encode(teacher.getPassword()));
 		this.repository.save(teacher);
 	}
  

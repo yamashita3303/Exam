@@ -4,10 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.example.scoremanage.model.Student;
+import com.example.scoremanage.model.Teacher;
+import com.example.scoremanage.repository.ClassNumRepository;
 import com.example.scoremanage.repository.StudentRepository;
+import com.example.scoremanage.repository.TeacherRepository;
 
 import jakarta.transaction.Transactional;
  
@@ -17,15 +21,37 @@ public class StudentService {
  
 	@Autowired
 	private StudentRepository repository;
+	@Autowired
+	private TeacherRepository teacherRepository;
+	@Autowired
+	private ClassNumRepository classNumRepository;
  
 	/**
 	 * アドレス帳一覧の取得
 	 * @return List<Student>
 	 */
+	/*
 	public List<Student> getStudentList() {
 	    List<Student> entityList = this.repository.findAll();
 	    return entityList;
 	}
+	*/
+	
+	/**
+	 * 学校ごとの一覧の取得
+     * (ユーザーに関連する学生のリストを取得するメソッド)
+     *
+     * @param user ユーザーの詳細情報
+     * @return ユーザーに関連する学生のリスト
+     */
+    public List<Student> getResStudentList(UserDetails user) {
+        // ユーザーのユーザー名に対応する教師情報をデータベースから取得する
+        Teacher teachers = this.teacherRepository.findByTeacherIdEquals(user.getUsername());
+        // 教師の所属する学校コードに関連する学生エンティティのリストを取得する
+        List<Student> entityList = this.repository.findBySchoolCd(teachers.getSchoolCd());
+        // 学生エンティティのリストを返す
+        return entityList;
+    }
  
 	/**
 	 * 詳細データの取得
@@ -41,9 +67,13 @@ public class StudentService {
 	 * アドレス帳一覧の取得
 	 * @param Student Student
 	 */
-	public void save(@NonNull Student student) {
+	public void save(@NonNull Student student, UserDetails user) {
 		// フラグの初期値にtrueを設定する
 		student.setIsAttend(true);
+		// ユーザーのユーザー名に対応する教師情報をデータベースから取得する
+        Teacher teachers = this.teacherRepository.findByTeacherIdEquals(user.getUsername());
+        // TeacherIdから取得したSchoolCdを初期値に設定する
+        student.setSchoolCd(teachers.getSchoolCd());
 		this.repository.save(student);
 	}
  
@@ -88,7 +118,7 @@ public class StudentService {
         // データベースを更新する
         repository.save(editstudent);
     }
-    public List<Student> searchStudents(Integer entYear, String classNum, Boolean isAttend) {
+    public List<Student> searchStudents(Integer entYear, String classNum, Boolean isAttend,String schoolCd) {
     	List<Student> students = repository.findAll();
     	 
         // 入学年度で絞り込み
@@ -107,6 +137,9 @@ public class StudentService {
             List<Student> isAttendStudents = repository.findByIsAttend(isAttend);
             students.retainAll(isAttendStudents);
         }
+        
+        List<Student> schoolCdStudents = repository.findBySchoolCd(schoolCd);
+        students.retainAll(schoolCdStudents);
  
         return students;
      }
