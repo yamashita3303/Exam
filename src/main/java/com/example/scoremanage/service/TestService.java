@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.example.scoremanage.model.Teacher;
 import com.example.scoremanage.model.Test;
+import com.example.scoremanage.repository.TeacherRepository;
 import com.example.scoremanage.repository.TestRepository;
 
 import jakarta.transaction.Transactional;
@@ -17,15 +20,28 @@ public class TestService {
  
 	@Autowired
 	private TestRepository repository;
+	@Autowired
+	private TeacherRepository teacherRepository;
  
 	/**
 	 * アドレス帳一覧の取得
 	 * @return List<Test>
 	 */
+	/*
 	public List<Test> getTestList() {
 	    List<Test> entityList = this.repository.findAll();
 	    return entityList;
 	}
+	*/
+	
+	public List<Test> getResTestList(UserDetails user) {
+        // ユーザーのユーザー名に対応する教師情報をデータベースから取得する
+        Teacher teachers = this.teacherRepository.findByTeacherIdEquals(user.getUsername());
+        // 教師の所属する学校コードに関連する学生エンティティのリストを取得する
+        List<Test> entityList = this.repository.findBySchoolCd(teachers.getSchoolCd());
+        // 学生エンティティのリストを返す
+        return entityList;
+    }
  
 	/**
 	 * 詳細データの取得

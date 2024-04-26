@@ -3,6 +3,8 @@ package com.example.scoremanage.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +20,8 @@ public class TestController {
 	private TestService testService;
 
 		@GetMapping("/test/")
-		public String index(Model model) {
-			model.addAttribute("list", this.testService.getTestList());
+		public String index(Model model, @AuthenticationPrincipal UserDetails user) {
+			model.addAttribute("list", this.testService.getResTestList(user));
 			return "test";
 		}
 		
@@ -38,8 +40,8 @@ public class TestController {
 	    }
 		
 		@GetMapping("/test/reference/")
-		public String testreference(Model model) {
-			model.addAttribute("list", this.testService.getTestList());
+		public String testreference(Model model, @AuthenticationPrincipal UserDetails user) {
+			model.addAttribute("list", this.testService.getResTestList(user));
 			return "testreference";
 		}
 		

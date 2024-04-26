@@ -15,13 +15,6 @@
       <div class="col-md-7 col-lg-8">
         <form class="form py-4 needs-validation h-adr" method="post" th:action="@{/subject/form/}" th:object="${subject}">
 			
-			<div class="row g-3">
-              <label for="schoolCd" class="form-label">学校コード</label>
-              <div class="col-4">
-                <input placeholder="学校コードを入力してください" type="text" class="form-control" id="schoolCd" name="schoolCd" th:field="*{schoolCd}" th:classappend="${#fields.hasErrors('schoolCd')} ? 'is-invalid' : 'is-valid'" required />     
-              </div>
-            </div>
-			
  			<div class="row g-3">
               <label for="cd" class="form-label">科目コード</label>
               <div class="col-4">

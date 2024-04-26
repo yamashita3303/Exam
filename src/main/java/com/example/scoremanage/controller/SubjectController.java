@@ -1,6 +1,8 @@
 package com.example.scoremanage.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,10 +24,12 @@ public class SubjectController {
 	@Autowired
 	private SubjectService subjectService;
 
-		@GetMapping("/subject/")
-		public String index(Model model) {
-			model.addAttribute("list", this.subjectService.getSubjectList());
-			return "subject";
+		@GetMapping("/subject/") // HTTP GETリクエストを"/student/"エンドポイントで処理する
+		public String top(Model model, @AuthenticationPrincipal UserDetails user) { // モデルを受け取る
+		    // 学生の一覧を取得してモデルに追加する
+		    model.addAttribute("list", this.subjectService.getResSubjectList(user));
+		    // "student"テンプレート名を返す
+		    return "subject";
 		}
 		
 		@GetMapping("/subject/form/")
@@ -37,9 +41,9 @@ public class SubjectController {
 	 
 		@PostMapping("/subject/form/")
 		public String add(@Validated @ModelAttribute @NonNull Subject subject, RedirectAttributes result, ModelAndView model,
-				RedirectAttributes redirectAttributes) {
+				RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails user) {
 			try {
-				this.subjectService.save(subject);
+				this.subjectService.save(subject, user);
 				redirectAttributes.addFlashAttribute("exception", "");
 	 
 			} catch (Exception e) {

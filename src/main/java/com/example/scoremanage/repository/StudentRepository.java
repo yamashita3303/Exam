@@ -14,4 +14,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	List<Student> findByEntYear(Integer entYear);
 	List<Student> findByClassNum(String classNum);
 	List<Student> findByIsAttend(Boolean isAttend);
+	List<Student> findBySchoolCd(String schoolCd);
 }

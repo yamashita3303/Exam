@@ -7,5 +7,5 @@ import com.example.scoremanage.model.ClassNum;
 
 @Repository
 public interface ClassNumRepository extends JpaRepository<ClassNum, Long> {
-	
+	ClassNum findByClassNum(String ClassNum);
 }
