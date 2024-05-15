@@ -7,8 +7,10 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.example.scoremanage.model.Student;
 import com.example.scoremanage.model.Teacher;
 import com.example.scoremanage.model.Test;
+import com.example.scoremanage.repository.StudentRepository;
 import com.example.scoremanage.repository.TeacherRepository;
 import com.example.scoremanage.repository.TestRepository;
 
@@ -22,23 +24,23 @@ public class TestService {
 	private TestRepository repository;
 	@Autowired
 	private TeacherRepository teacherRepository;
+	@Autowired
+	private StudentRepository studentRepository;
  
 	/**
 	 * アドレス帳一覧の取得
 	 * @return List<Test>
 	 */
-	/*
-	public List<Test> getTestList() {
-	    List<Test> entityList = this.repository.findAll();
+	public List<Student> getTestList() {
+	    List<Student> entityList = this.studentRepository.findAll();
 	    return entityList;
 	}
-	*/
 	
-	public List<Test> getResTestList(UserDetails user) {
+	public List<Student> getResTestList(UserDetails user) {
         // ユーザーのユーザー名に対応する教師情報をデータベースから取得する
         Teacher teachers = this.teacherRepository.findByTeacherIdEquals(user.getUsername());
         // 教師の所属する学校コードに関連する学生エンティティのリストを取得する
-        List<Test> entityList = this.repository.findBySchoolCd(teachers.getSchoolCd());
+        List<Student> entityList = this.studentRepository.findBySchoolCd(teachers.getSchoolCd());
         // 学生エンティティのリストを返す
         return entityList;
     }
@@ -102,37 +104,28 @@ public class TestService {
         repository.save(edittest);
     }
     
-    public List<Test> searchTests(/*Integer entYear, */String classNum, String subjectCd, Integer no) {
-    	List<Test> tests = repository.findAll();
+    public List<Student> searchTests(Integer entYear, String classNum, String schoolCd) {
+    	List<Student> students = studentRepository.findAll();
     	 
         // 入学年度で絞り込み
-    	/*
         if (entYear != null) {
-        	tests = repository.findByEntYear(entYear);
+            students = studentRepository.findByEntYear(entYear);
         }
-        */
  
         // クラス番号で絞り込み
         if (classNum != null && !classNum.isEmpty()) {
-            List<Test> classNumTests = repository.findByClassNum(classNum);
-            tests.retainAll(classNumTests);
-        }
- 
-        // 科目で絞り込み
-        if (subjectCd != null && !subjectCd.isEmpty()) {
-            List<Test> subjectCdTests = repository.findBySubjectCd(subjectCd);
-            tests.retainAll(subjectCdTests);
+            List<Student> classNumStudents = studentRepository.findByClassNum(classNum);
+            students.retainAll(classNumStudents);
         }
         
-        // 回数で絞り込み
-        if (no != null) {
-        	tests = repository.findByNo(no);
-        }
- 
-        return tests;
+        // 学校での絞り込み（強制的に）
+        List<Student> schoolCdStudents = studentRepository.findBySchoolCd(schoolCd);
+        students.retainAll(schoolCdStudents);
+        
+        return students;
      }
     
-    public List<Test> searchReferences(/*Integer entYear, */String classNum, String subjectCd, String studentNo) {
+    public List<Test> searchSubjects(/*Integer entYear, */String classNum, String subjectCd) {
     	List<Test> references = repository.findAll();
     	 
         // 入学年度で絞り込み
@@ -143,9 +136,8 @@ public class TestService {
         */
  
         // クラス番号で絞り込み
-        if (classNum != null && !classNum.isEmpty()) {
-            List<Test> classNumTests = repository.findByClassNum(classNum);
-            references.retainAll(classNumTests);
+        if (classNum != null) {
+        	references = repository.findByClassNum(classNum);
         }
  
         // 科目で絞り込み
@@ -153,13 +145,19 @@ public class TestService {
             List<Test> subjectCdTests = repository.findBySubjectCd(subjectCd);
             references.retainAll(subjectCdTests);
         }
- 
-        // 学生番号で絞り込み
+
+        return references;
+     }
+    
+    public List<Test> searchStudentNos(String studentNo) {
+    	List<Test> references = repository.findAll();
+    	
+    	// 学生番号で絞り込み
         if (studentNo != null && !studentNo.isEmpty()) {
             List<Test> classStudentNos = repository.findByStudentNo(studentNo);
             references.retainAll(classStudentNos);
         }
 
         return references;
-     }
+    }
 }

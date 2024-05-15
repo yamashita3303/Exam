@@ -58,6 +58,10 @@ public class SubjectService {
 		Subject subject = this.repository.findById(index).orElse(new Subject());
 		return subject;
 	}
+	
+	public List<Subject> getAll() {
+		return this.repository.findAll();
+	}
  
 	/**
 	 * アドレス帳一覧の取得

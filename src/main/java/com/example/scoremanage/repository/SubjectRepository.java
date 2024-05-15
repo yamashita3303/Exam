@@ -10,4 +10,6 @@ import com.example.scoremanage.model.Subject;
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject, Long> {
 	List<Subject> findBySchoolCd(String schoolCd);
+	Subject findByName(String subjectCds);
+	Subject findByCd(String subjectCd);
 }

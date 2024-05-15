@@ -62,6 +62,10 @@ public class StudentService {
 		Student student = this.repository.findById(index).orElse(new Student());
 		return student;
 	}
+	
+	public List<Student> getAll() {
+		return this.repository.findAll();
+	}
  
 	/**
 	 * アドレス帳一覧の取得
@@ -118,7 +122,7 @@ public class StudentService {
         // データベースを更新する
         repository.save(editstudent);
     }
-    public List<Student> searchStudents(Integer entYear, String classNum, Boolean isAttend,String schoolCd) {
+    public List<Student> searchStudents(Integer entYear, String classNum, Boolean isAttend, String schoolCd) {
     	List<Student> students = repository.findAll();
     	 
         // 入学年度で絞り込み
@@ -143,6 +147,18 @@ public class StudentService {
  
         return students;
      }
+    
+    
+    public List<Student> searchEntYears(Integer entYear) {
+    	List<Student> students = repository.findAll();
+    	 
+        // 入学年度で絞り込み
+        if (entYear != null) {
+            students = repository.findByEntYear(entYear);
+        }
+        return students;
+    }
+    
     
     
 }

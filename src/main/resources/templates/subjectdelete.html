@@ -5,6 +5,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<tr class="align-middle" th:each="item, stat : ${deletelist}" th:object="${item}">
 		<p th:text="*{name}"></p>
 		<p>を削除してもよろしいですか</p>
 		

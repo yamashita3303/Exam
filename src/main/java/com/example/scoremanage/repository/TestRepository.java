@@ -9,10 +9,8 @@ import com.example.scoremanage.model.Test;
 
 @Repository
 public interface TestRepository extends JpaRepository<Test, Long> {
-	//List<Test> findByEntYear(Integer entYear);
 	List<Test> findByClassNum(String classNum);
 	List<Test> findBySubjectCd(String subjectCd);
-	List<Test> findByNo(Integer no);
 	List<Test> findByStudentNo(String studentNo);
 	List<Test> findBySchoolCd(String schoolCd);
 }
