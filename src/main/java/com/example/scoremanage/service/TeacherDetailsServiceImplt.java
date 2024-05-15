@@ -20,7 +20,7 @@ public class TeacherDetailsServiceImplt implements UserDetailsService {
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String teacherId) throws UsernameNotFoundException {
-		System.out.println("serach teacherId : " + teacherId);
+		System.out.println("serach teacherId  : " + teacherId);
 		Teacher user = this.repository.findByTeacherIdEquals(teacherId); 
 		System.out.println(user.toString());
 		return user;
