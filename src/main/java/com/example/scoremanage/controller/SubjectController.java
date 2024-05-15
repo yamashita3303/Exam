@@ -1,6 +1,9 @@
 package com.example.scoremanage.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -17,67 +20,94 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.scoremanage.model.Subject;
 import com.example.scoremanage.service.SubjectService;
 
-import io.micrometer.common.lang.NonNull;
-
 @Controller
 public class SubjectController {
 	@Autowired
 	private SubjectService subjectService;
 
-		@GetMapping("/subject/") // HTTP GETリクエストを"/student/"エンドポイントで処理する
-		public String top(Model model, @AuthenticationPrincipal UserDetails user) { // モデルを受け取る
-		    // 学生の一覧を取得してモデルに追加する
+//		@GetMapping("/subject/") // HTTP GETリクエストを"/student/"エンドポイントで処理する
+//		public String top(Model model, @AuthenticationPrincipal UserDetails user) { // モデルを受け取る
+//		    // 学生の一覧を取得してモデルに追加する
+//		    model.addAttribute("list", this.subjectService.getResSubjectList(user));
+//		    // "student"テンプレート名を返す
+//		    return "subject";
+//		}
+		
+		@GetMapping("/subject/")
+		public String top(Model model, @AuthenticationPrincipal UserDetails user) {
+		    List<Subject> subjectList = subjectService.getResSubjectList(user);
+		    model.addAttribute("subjectList", subjectList);
+	
+		    // 他の必要な情報もモデルに追加
 		    model.addAttribute("list", this.subjectService.getResSubjectList(user));
-		    // "student"テンプレート名を返す
+	
 		    return "subject";
 		}
-		
+	
 		@GetMapping("/subject/form/")
-		public ModelAndView add(Subject subject, ModelAndView model) {
-			model.addObject("subject", subject);
-			model.setViewName("subjectform");
-			return model;
+		public ModelAndView add(ModelAndView model) {
+		    model.addObject("subject", new Subject());
+		    model.setViewName("subjectform");
+		    return model;
 		}
-	 
+	
 		@PostMapping("/subject/form/")
-		public String add(@Validated @ModelAttribute @NonNull Subject subject, RedirectAttributes result, ModelAndView model,
-				RedirectAttributes redirectAttributes, @AuthenticationPrincipal UserDetails user) {
-			try {
-				this.subjectService.save(subject, user);
-				redirectAttributes.addFlashAttribute("exception", "");
-	 
-			} catch (Exception e) {
-				redirectAttributes.addFlashAttribute("exception", e.getMessage());
-			}
-			return "subjectformcomplete";
+		public String add(@Validated @ModelAttribute Subject subject,
+		                  BindingResult bindingResult,
+		                  RedirectAttributes redirectAttributes,
+		                  @AuthenticationPrincipal UserDetails user) {
+		    if (bindingResult.hasErrors()) {
+		    	System.out.println("ここがうえ");
+		        return "subjectform"; // バリデーションエラーがある場合はフォームページに戻る
+		    }
+	
+		    try {
+		        this.subjectService.save(subject, user);
+		    } catch (DataIntegrityViolationException e) {
+		        redirectAttributes.addFlashAttribute("SubjectErrorMessage", "科目コードが重複しています。");
+		        return "redirect:/subject/form/";
+		    } catch (Exception e) {
+		        redirectAttributes.addFlashAttribute("SubjectErrorMessage", e.getMessage());
+		        return "redirect:/subject/form/";
+		    }
+	
+		    return "redirect:/subject/formcomplete/";
 		}
+		
 		
 		// 編集画面を表示する
-		@GetMapping("/subject/update/{id}")
-		public String subject(Model model, Subject subject) {
-				
-			subject = subjectService.getOneBook(subject.getId());
-		    model.addAttribute(subject);
-				
-		    return "subjectupdate";
-		}
-		
-		// 本の情報を更新する
-		@PostMapping("/subject/update/{id}")
-		public String update(@ModelAttribute @Validated Subject subject, BindingResult result, Model model) {
-				
-		    // バリデーションエラーの場合
-		    if (result.hasErrors()) {
-		        // 編集画面に遷移
-		        return "subjectupdate";
-		    }
-			
-		    // 本を更新する
-		    subjectService.update(subject);
-			
-		    // 完了画面に移行
-		    return "subjectupdatecomplete";
-		}
+	    @GetMapping("/subject/update/{id}")
+	    public String subject(@PathVariable("id") Long id, Model model) {
+	        Subject subject = subjectService.getOneBook(id);
+	        model.addAttribute("subject", subject);
+	        return "subjectupdate";
+	    }
+
+	    // 本の情報を更新する
+	    @PostMapping("/subject/update/{id}")
+	    public String update(@ModelAttribute @Validated Subject subject, BindingResult result, RedirectAttributes redirectAttributes) {
+	        // バリデーションエラーの場合
+	        if (result.hasErrors()) {
+	            return "subjectupdate"; // 編集画面に遷移
+	        }
+
+	        try {
+	            // 本を更新する
+	            subjectService.update(subject);
+	        } catch (DataIntegrityViolationException e) {
+	            // 重複エラーの場合
+	            redirectAttributes.addFlashAttribute("SubjectErrorMessage", "科目コードが重複しています。");
+	            return "redirect:/subject/update/" + subject.getId();
+	        } catch (Exception e) {
+	            // その他のエラーの場合
+	            redirectAttributes.addFlashAttribute("SubjectErrorMessage", e.getMessage());
+	            return "redirect:/subject/update/" + subject.getId();
+	        }
+
+	        // 完了画面に移行
+	        return "redirect:/subject/updatecomplete/";
+	    }
+	    
 		
 		@GetMapping("/subject/delete/{id}")
 		public ModelAndView delete(@PathVariable(name = "id") Long id, Subject subject, ModelAndView model) {
@@ -112,4 +142,3 @@ public class SubjectController {
 		}
 		
 	}
-

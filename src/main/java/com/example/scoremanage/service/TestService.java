@@ -154,7 +154,6 @@ public class TestService {
         if (studentNos != null && !studentNos.isEmpty()) {
             List<Test> entyearTests = repository.findByNoIn(studentNos);
             references.retainAll(entyearTests);
-            System.out.println("***" + references);
         }
  
         // クラス番号で絞り込み

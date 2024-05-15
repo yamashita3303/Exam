@@ -1,5 +1,5 @@
 package com.example.scoremanage.config;
-
+ 
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,29 +13,25 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.example.scoremanage.service.TeacherDetailsServiceImplt;
-
-
+ 
+ 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 	@Autowired
 	private DataSource dataSource;
- 
 	@Autowired
 	private TeacherDetailsServiceImplt userService;
- 
 	@Bean
 	public UserDetailsManager userDetailsManager() {
 		JdbcUserDetailsManager jdbcManager = new JdbcUserDetailsManager(this.dataSource);
 		return jdbcManager;
 	}
- 
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		return bCryptPasswordEncoder;
 	}
- 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.httpBasic(
@@ -43,6 +39,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests(request -> {
 					request
 							.requestMatchers("/").permitAll() // ログインページは全許可
+							.requestMatchers("/logoutsuccess").permitAll()
 							.requestMatchers("/js/**").permitAll() // JSのstaticファイル
 							.requestMatchers("/css/**").permitAll() // CSSのstaticファイル
 							.requestMatchers("/images/**").permitAll() // 画像のstaticファイル
@@ -60,7 +57,7 @@ public class SecurityConfig {
 				.logout(logout -> {
 					logout
 							.logoutUrl("/logout/")
-							.logoutSuccessUrl("/login/")
+							.logoutSuccessUrl("/logoutsuccess")
 							.deleteCookies("JSESSIONID")
 							.invalidateHttpSession(true);
 				});

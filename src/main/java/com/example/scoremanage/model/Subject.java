@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
@@ -20,8 +21,9 @@ public class Subject {
 	@Column(name="SCHOOL_CD", length = 3, nullable = false)
 	private String schoolCd;
 	
-	@Column(name="CD", length = 3, nullable = false)
-	private String cd;
+    @Column(name="CD", length = 3, nullable = false)
+    @Size(min = 3, max = 3, message = "科目コードは3文字で入力してください")
+    private String cd;
 
 	@Column(name="NAME", length = 20, nullable = true)
 	private String name;
