@@ -98,13 +98,18 @@ public class TestController {
 	            @RequestParam(name = "subjectCd", required = false) String subjectCd,
 	            Model model) {
 	        System.out.println("-----------------");
-			List<Student> students = studentService.searchEntYears(entYear);
-			System.out.println(students);
-			//List<ArrayList> num = students.getNo();
 	        // 検索操作の場合
-	        List<Test> subjects = testService.searchSubjects(/*entYear, */classNum, subjectCd);
-	        System.out.println(subjects);
-	        model.addAttribute("subjectslist", subjects);
+	        List<Test> references = testService.searchSubjects(entYear, classNum, subjectCd);
+	        
+	        List<Integer> entYears = new ArrayList<>();
+	        for (int i = 0; i < references.size(); i++) {
+	        	entYears.add(entYear);
+	        }
+	        
+	        System.out.println(entYears);
+	        System.out.println(entYears);
+	        model.addAttribute("entYearslist", entYears);
+	        model.addAttribute("subjectslist", references);
 	        System.out.println("-----------------");
 			//listという名前は、controllerの@GetMapping("/test/reference/")　と　templatesのstudentのth:each="item, stat : ${list}"　と同じにする
 	        return "testreference";

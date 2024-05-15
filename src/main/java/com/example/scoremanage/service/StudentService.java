@@ -147,18 +147,4 @@ public class StudentService {
  
         return students;
      }
-    
-    
-    public List<Student> searchEntYears(Integer entYear) {
-    	List<Student> students = repository.findAll();
-    	 
-        // 入学年度で絞り込み
-        if (entYear != null) {
-            students = repository.findByEntYear(entYear);
-        }
-        return students;
-    }
-    
-    
-    
 }

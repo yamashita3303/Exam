@@ -9,6 +9,7 @@ import com.example.scoremanage.model.Test;
 
 @Repository
 public interface TestRepository extends JpaRepository<Test, Long> {
+	List<Test> findByNoIn(List<String> nos);
 	List<Test> findByClassNum(String classNum);
 	List<Test> findBySubjectCd(String subjectCd);
 	List<Test> findByStudentNo(String studentNo);

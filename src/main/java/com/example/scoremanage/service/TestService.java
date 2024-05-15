@@ -1,5 +1,6 @@
 package com.example.scoremanage.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,15 +126,36 @@ public class TestService {
         return students;
      }
     
-    public List<Test> searchSubjects(/*Integer entYear, */String classNum, String subjectCd) {
+    public List<Student> StudententYear(Integer entYear) {
+        // 全ての学生を取得
+        List<Student> studententYears = studentRepository.findAll();
+        
+        // 入学年度で絞り込み
+        if (entYear != null) {
+        	studententYears = studentRepository.findByEntYear(entYear);  
+        }
+        return studententYears;
+        }
+    
+    public List<Test> searchSubjects(Integer entYear, String classNum, String subjectCd) {
     	List<Test> references = repository.findAll();
     	 
-        // 入学年度で絞り込み
-    	/*
-        if (entYear != null) {
-        	references = repository.findByEntYear(entYear);
+    	List<Student> studententYear = StudententYear(entYear);
+        System.out.println("studententYear" + entYear + "|" + studententYear);
+        
+        List<String> studentNos = new ArrayList<>(); // SubjectCd の数値を格納するリストを作成
+        for (Student student : studententYear) {
+        	studentNos.add(student.getNo()); // 各 TestModel オブジェクトから SubjectCd の数値を取得し、リストに追加
         }
-        */
+        System.out.println("StudentModelのstudentNo =" + studentNos);
+        System.out.println("-----------------");
+    	
+    	// entyearで絞り込み
+        if (studentNos != null && !studentNos.isEmpty()) {
+            List<Test> entyearTests = repository.findByNoIn(studentNos);
+            references.retainAll(entyearTests);
+            System.out.println("***" + references);
+        }
  
         // クラス番号で絞り込み
         if (classNum != null) {
@@ -154,8 +176,8 @@ public class TestService {
     	
     	// 学生番号で絞り込み
         if (studentNo != null && !studentNo.isEmpty()) {
-            List<Test> classStudentNos = repository.findByStudentNo(studentNo);
-            references.retainAll(classStudentNos);
+            List<Test> classStudentNosTests = repository.findByStudentNo(studentNo);
+            references.retainAll(classStudentNosTests);
         }
 
         return references;

@@ -161,7 +161,7 @@
         <table class="table table-striped table-sm">
           <thead>
             <tr th:if="${not #lists.isEmpty(subjectslist)}">
-<!--	            <th>入学年度</th>-->
+	            <th>入学年度</th>
 				<th>クラス</th>
 				<th>学生番号</th>
 <!--				<th>氏名</th>-->
@@ -170,11 +170,11 @@
           </thead>
           <tbody>
 				<tr class="align-middle" th:each="item, stat : ${subjectslist}" th:object="${item}">
-<!--					<td th:text="*{entYear}"></td>-->
-					<td th:text="*{classNum}"></td>
-					<td th:text="*{studentNo}"></td>
-<!--					<td th:text="*{name}"></td>-->
-					<td th:text="*{no}"></td>
+					<td th:text="${entYearslist[stat.index]}"></td>
+					<td th:text="${item.classNum}"></td>
+					<td th:text="${item.studentNo}"></td>
+<!--					<td th:text="${name}"></td>-->
+					<td th:text="${item.no}"></td>
 				</tr>
 			</tbody>
         </table>
